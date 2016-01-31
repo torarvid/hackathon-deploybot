@@ -3,7 +3,7 @@
 set -e
 
 usage() {
-	echo "Usage: $0 staging|prod"
+	echo "Usage: $0 staging|prod <component>"
 	exit 2
 }
 
