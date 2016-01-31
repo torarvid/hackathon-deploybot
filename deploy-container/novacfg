@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "staging": {
+      "s3": {
+        "bucket": "aliak-nova-bucket",
+        "region": "eu-central-1",
+        "keyPrefix": "deployments/"
+      }
+    },
+    "prod": {
+      "s3": {
+        "bucket": "comoyo-wowbox-deployments",
+        "region": "eu-west-1",
+        "keyPrefix": "deployments/"
+      }
+    }
+  }
+}

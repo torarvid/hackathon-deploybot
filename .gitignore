@@ -1,0 +1,11 @@
+blackbox/
+config/config.yml
+nova/
+wowbox.tar.xz
+docker.env
+logs/
+secrets/
+wowbox/
+hubot-instance/env
+hubot-instance/*.zip
+hubot-instance/Procfile
