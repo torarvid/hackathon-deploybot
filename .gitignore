@@ -9,3 +9,4 @@ wowbox/
 hubot-instance/env
 hubot-instance/*.zip
 hubot-instance/Procfile
+node_modules/

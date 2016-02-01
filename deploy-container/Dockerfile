@@ -36,3 +36,4 @@ RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
 ADD blackbox/* /usr/local/bin/
 ADD clone.sh /var/app/
 ADD deploy.sh /var/app/
+ADD deploy /var/app/deploy

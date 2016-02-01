@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -7,12 +7,13 @@ usage() {
 	exit 2
 }
 
-if [ $# -lt 1 ]; then
+if [ $# -lt 2 ]; then
 	usage
 fi
 
 TARGET_ENV=$1
-LOG=/logs/${TARGET_ENV}.log
+COMPONENT=${2//\//-}
+LOG=/logs/${TARGET_ENV}-${COMPONENT}.log
 : > $LOG
 
 log()
@@ -21,22 +22,7 @@ log()
 	echo "[${DATE}]: $1" >> $LOG
 }
 
-log "Starting deployment of $TARGET_ENV"
-
-if [ "$TARGET_ENV" = "staging" ]; then
-	BASEDIR=deployment/dogebox
-	PARAMS="--params ../../secrets/dogebox/nova-params.yml"
-	BUILD=dogebox
-	DEPLOY=dogebox/app-nonexist
-elif [ "$TARGET_ENV" = "prod" ]; then
-	BASEDIR=deployment
-	PARAMS="--params params/production.yml --params ../secrets/nova-params/production-secrets.yml"
-	BUILD=wowbox
-	DEPLOY=wowbox/app-1
-else
-	log "Usage: $0 staging|prod"
-	exit 2
-fi
+log "Starting deployment of '${TARGET_ENV}'-'${COMPONENT}'"
 
 if [ -z "$SSH_AUTH_SOCK" ]; then
 	log "Starting ssh-agent"
@@ -67,7 +53,7 @@ blackbox_decrypt_all_files
 log "Decrypted... Now running 'nova build'"
 
 cd $BASEDIR
-nova --profile $TARGET_ENV $PARAMS --verbose build $BUILD
+echo nova --profile $TARGET_ENV $PARAMS --verbose build $BUILD
 log "Nova build done. Now deploying (will take a while)"
-nova --profile $TARGET_ENV $PARAMS --verbose --output-format text deploy --wait $DEPLOY
+echo nova --profile $TARGET_ENV $PARAMS --verbose --output-format text deploy --wait $DEPLOY
 log "Nova deploy done. Did it work?!?!"
